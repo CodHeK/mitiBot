@@ -31,7 +31,8 @@ def extract(x):
         if dip not in graph[sip]:
             graph[sip][dip] = (srcpkts, (srcpkts, dstpkts))
         else:
-            graph[sip][dip] += srcpkts
+            srcpktsPrev = graph[sip][dip][0]
+            graph[sip][dip] = (srcpkts + srcpktsPrev, (srcpkts, dstpkts))
 
         if dip in graph:
             if sip in graph[dip]:
@@ -47,7 +48,8 @@ def extract(x):
         if sip not in graph[dip]:
             graph[dip][sip] = (dstpkts, (srcpkts, dstpkts))
         else:
-            graph[dip][sip] += dstpkts
+            dstpktsPrev = graph[dip][sip][0]
+            graph[dip][sip] = (dstpkts + dstpktsPrev, (srcpkts, dstpkts))
 
         if sip in graph:
             if dip in graph[sip]:
@@ -74,9 +76,9 @@ def test():
 
 
 def main():
-    content = read('/dataset/42.csv')
+    content = read('./datasets/42.csv')
 
-    preprocess(content[1:1000])
+    preprocess(content[1:10])
 
 
 if __name__ == '__main__':
