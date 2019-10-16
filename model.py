@@ -1,5 +1,8 @@
-# GLOBAL VALUES
+import numpy as np
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
+# GLOBAL VALUES
 graph = {}
 nodes = {}
 
@@ -10,7 +13,7 @@ idw_count = {}
 odw_count = {}
 lcc_count = {}
 
-f = []
+f = {}
 
 def read(filename):
     with open(filename, 'r') as file:
@@ -133,6 +136,26 @@ def LCC(node):
         return 0.0
 
 
+def normalize(fn, node):
+    N = 0
+    sumF = np.array([0, 0, 0, 0, 0]).astype('float64')
+    for n in nodes:
+        if n != node:
+            if node in graph:
+                if n in graph[node]:
+                    N += 1
+                    sumF += np.array(f[n]).astype('float64')
+
+    u = sumF/float(N)
+
+    for idx, ui in enumerate(u):
+        if ui == 0.0:
+            ui += 0.01
+        fn[idx] = fn[idx]/float(ui)
+
+    return fn
+
+
 def preprocess(content):
     for line in content:
         extract(line)
@@ -142,14 +165,16 @@ def train():
     # FOR EACH NODE CALCULATE THE FEATURE TUPLE [ F0, F1, F2, F3, F4 ]
 
     for node in nodes:
-        f.append([ ID(node), OD(node), IDW(node), ODW(node), LCC(node) ])
+        f[node] = [ ID(node), OD(node), IDW(node), ODW(node), LCC(node) ]
 
+    # NORMALIZE
+
+    for node in nodes:
+        f[node] = normalize(f[node], node)
 
 
 def test():
     pass
-
-
 
 
 def main():
@@ -162,11 +187,10 @@ def main():
 
         # USE THE TRAINED FILE
 
-        trained_model_file.close()
+        # trained_model_file.close()
     except:
         train()
-
-        print(f)
+        pp.pprint(f)
 
 
 
