@@ -160,8 +160,6 @@ def preprocess(content):
     for line in content:
         extract(line)
 
-
-def train():
     # FOR EACH NODE CALCULATE THE FEATURE TUPLE [ F0, F1, F2, F3, F4 ]
 
     for node in nodes:
@@ -172,6 +170,9 @@ def train():
     for node in nodes:
         f[node] = normalize(f[node], node)
 
+
+def train():
+    pass
 
 def test():
     pass
@@ -188,9 +189,13 @@ def main():
         # USE THE TRAINED FILE
 
         # trained_model_file.close()
+
+        # RUN TEST
+
+        # test()
     except:
         train()
-        pp.pprint(f)
+
 
 
 
