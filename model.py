@@ -3,11 +3,19 @@
 graph = {}
 nodes = {}
 
+# FEATURES
+id_count = {}
+od_count = {}
+idw_count = {}
+odw_count = {}
+lcc_count = {}
+
+f = []
 
 def read(filename):
     with open(filename, 'r') as file:
         content = file.readlines()
-
+    file.close()
     return content
 
 def extract(x):
@@ -59,14 +67,83 @@ def extract(x):
 
         return (sip, dip)
 
+# IN-DEGREE (ID)
+def ID(node):
+    c = 0
+    for n in nodes:
+        if n != node:
+            if n in graph:
+                if node in graph[n]:
+                    c += 1
+
+    return c
+
+# OUT-DEGREE (OD)
+def OD(node):
+    c = 0
+    for n in nodes:
+        if n != node:
+            if node in graph:
+                if n in graph[node]:
+                    c += 1
+    return c
+
+# IN-DEGREE WEIGHT (IDW)
+def IDW(node):
+    c = 0
+    for n in nodes:
+        if n != node:
+            if n in graph:
+                if node in graph[n]:
+                    c += graph[n][node][0]
+    return c
+
+# OUT-DEGREE WIGHT (ODW)
+def ODW(node):
+    c = 0
+    for n in nodes:
+        if n != node:
+            if node in graph:
+                if n in graph[node]:
+                    c += graph[node][n][0]
+    return c
+
+# LOCAL CLUSTERING COEFFICIENT (LCC)
+def LCC(node):
+    N = 0
+    NgNodes = []
+    for n in nodes:
+        if n != node:
+            if node in graph:
+                if n in graph[node]:
+                    N += 1
+                    NgNodes.append(n)
+
+    F = 0
+    for j in NgNodes:
+        for k in NgNodes:
+            if j != k:
+                if j in graph:
+                    if k in graph[j]:
+                        F += 1
+
+    if N > 1:
+        return F/float(N*(N-1))
+    else:
+        return 0.0
+
+
 def preprocess(content):
     for line in content:
-        (sip, dip) = extract(line)
-
+        extract(line)
 
 
 def train():
-    pass
+    # FOR EACH NODE CALCULATE THE FEATURE TUPLE [ F0, F1, F2, F3, F4 ]
+
+    for node in nodes:
+        f.append([ ID(node), OD(node), IDW(node), ODW(node), LCC(node) ])
+
 
 
 def test():
@@ -79,6 +156,19 @@ def main():
     content = read('./datasets/42.csv')
 
     preprocess(content[1:10])
+
+    try:
+        trained_model_file = open('trained_model.pickle', 'r')
+
+        # USE THE TRAINED FILE
+
+        trained_model_file.close()
+    except:
+        train()
+
+        print(f)
+
+
 
 
 if __name__ == '__main__':
