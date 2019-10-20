@@ -1,5 +1,8 @@
-import numpy as np
-import pprint
+ import numpy as np
+import pprint, re, random
+from sklearn.cluster import KMeans, Birch
+
+
 pp = pprint.PrettyPrinter(indent=4)
 
 # GLOBAL VALUES
@@ -14,12 +17,14 @@ odw_count = {}
 lcc_count = {}
 
 f = {}
+fvecs = []
 
 def read(filename):
     with open(filename, 'r') as file:
         content = file.readlines()
     file.close()
     return content
+
 
 def extract(x):
     if len(x.split(',')) == 15:
@@ -169,35 +174,66 @@ def preprocess(content):
 
     for node in nodes:
         f[node] = normalize(f[node], node)
+        fvecs.append(f[node])
 
 
 def train():
-    pass
+    # PHASE 1 - UNSUPERVISED LEARNING
+
+    X = np.array(fvecs)
+
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
+
+    pickle.dump(kmeans, open("kmeans.pkl", "wb"))
 
 def test():
     pass
 
 
+def mod(content):
+    non_bot_tuples = []
+    bot_tuples = []
+
+    non_bot_flow_tuples = 97850
+
+    for line in content:
+        flow = line.split(',')[14]
+
+        # NON BOTNET FLOWS
+        if len(re.findall("Botnet", str(flow))) == 0:
+            if non_bot_flow_tuples > 0:
+                non_bot_flow_tuples -= 1
+                non_bot_tuples.append(line)
+        else:
+            bot_tuples.append(line)
+
+    random.shuffle(non_bot_tuples)
+    random.shuffle(bot_tuples)
+
+    test = non_bot_tuples[:10000] + bot_tuples[:5000]
+    train = non_bot_tuples[10000:] + bot_tuples[5000:]
+
+    random.shuffle(test)
+    random.shuffle(test)
+
+    return (train, test)
+
+
 def main():
     content = read('./datasets/42.csv')
 
-    preprocess(content[1:10])
+    train, test = mod(content[1:])
+
+    preprocess(train)
 
     try:
         trained_model_file = open('trained_model.pickle', 'r')
-
-        # USE THE TRAINED FILE
-
-        # trained_model_file.close()
 
         # RUN TEST
 
         # test()
     except:
         train()
-
-
-
 
 
 if __name__ == '__main__':
