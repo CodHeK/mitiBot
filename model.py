@@ -1,6 +1,7 @@
- import numpy as np
+import numpy as np
 import pprint, re, random
-from sklearn.cluster import KMeans, Birch
+from datetime import datetime
+from sklearn.cluster import KMeans, Birch, DBSCAN
 
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -26,6 +27,9 @@ def read(filename):
     return content
 
 
+'''
+    Flow ingestion
+'''
 def extract(x):
     if len(x.split(',')) == 15:
         sip = x.split(',')[3]
@@ -74,6 +78,11 @@ def extract(x):
                 graph[dip][sip] = (dstpktsX + srcpktsY, (srcpkts, dstpkts))
 
         return (sip, dip)
+
+
+'''
+    Feature Extraction
+'''
 
 # IN-DEGREE (ID)
 def ID(node):
@@ -141,6 +150,9 @@ def LCC(node):
         return 0.0
 
 
+'''
+    F-Norm Implementation using D = 1
+'''
 def normalize(fn, node):
     N = 0
     sumF = np.array([0, 0, 0, 0, 0]).astype('float64')
@@ -151,24 +163,34 @@ def normalize(fn, node):
                     N += 1
                     sumF += np.array(f[n]).astype('float64')
 
-    u = sumF/float(N)
+    if N > 0:
+        u = sumF/float(N)
 
-    for idx, ui in enumerate(u):
-        if ui == 0.0:
-            ui += 0.01
-        fn[idx] = fn[idx]/float(ui)
+        for idx, ui in enumerate(u):
+            if ui == 0.0:
+                ui += 0.01
+            fn[idx] = fn[idx]/float(ui)
 
     return fn
 
 
+'''
+    Graph Transform and extracted feature storage
+'''
 def preprocess(content):
     for line in content:
         extract(line)
 
+    print("Graph built!")
+
     # FOR EACH NODE CALCULATE THE FEATURE TUPLE [ F0, F1, F2, F3, F4 ]
 
+    print(len(nodes))
     for node in nodes:
         f[node] = [ ID(node), OD(node), IDW(node), ODW(node), LCC(node) ]
+        # print(str(node) + " done ...")
+
+    print("Feature Extraction done!")
 
     # NORMALIZE
 
@@ -176,15 +198,33 @@ def preprocess(content):
         f[node] = normalize(f[node], node)
         fvecs.append(f[node])
 
+    print("Normalizing Done!")
 
+
+'''
+    Phase 1 (UL) and 2 (SL) of training
+'''
 def train():
     # PHASE 1 - UNSUPERVISED LEARNING
 
     X = np.array(fvecs)
 
+    # K-Means Clustering
+
     kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
 
     pickle.dump(kmeans, open("kmeans.pkl", "wb"))
+
+    print(kmeans.labels_)
+
+    # DBSCAN Clustering
+
+    dbscan = DBSCAN(eps=0.5, min_samples=5).fit(X)
+
+    pickle.dump(dbscan, open("dbscan.pkl", "wb"))
+
+    print(dbscan.labels_)
+
 
 def test():
     pass
@@ -220,20 +260,27 @@ def mod(content):
 
 
 def main():
+    start = datetime.now()
+    start_time = start.strftime("%H:%M:%S")
+    print("Start Time =", start_time)
+
     content = read('./datasets/42.csv')
 
-    train, test = mod(content[1:])
+    print("Read Dataset...")
 
-    preprocess(train)
+    Train, Test = mod(content[1:])
 
-    try:
-        trained_model_file = open('trained_model.pickle', 'r')
+    preprocess(Train)
 
-        # RUN TEST
+    print("Done pre-processing!")
 
-        # test()
-    except:
-        train()
+    train()
+
+    print("Training done!")
+
+    end = datetime.now()
+    end_time = end.strftime("%H:%M:%S")
+    print("Start Time =", end_time)
 
 
 if __name__ == '__main__':

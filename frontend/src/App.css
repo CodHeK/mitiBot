@@ -1,0 +1,171 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-family: 'Muli', sans-serif;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  width: 100%;
+  height: 60px;
+  color: #DDE2FF;
+  border-left: #DDE2FF;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-title {
+  display: flex;
+  flex-direction: row;
+}
+
+.logo {
+  width: 30%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.name {
+  width: 70%;
+  color: #A4A6B3;
+  opacity: 0.7;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 1em;
+  font-size: 23px;
+}
+
+.dashboard {
+  height: 900px;
+  width: 100%;
+  background-color: #E5E5E5;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+}
+
+.overview {
+  width: 50%;
+  height: 70px;
+  padding: 1em;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.start-btn {
+  width: 50%;
+  height: 70px;
+  padding: 1em;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.start {
+  width: 100px;
+  height: 40px;
+  background: #363740;
+  color: #E5E5E5;
+  margin-right: 0.7em;
+  border-radius: 9px;
+}
+
+.stats {
+  /* border: 1px solid black; */
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.left, .right {
+  width: 47%;
+  height: 150px;
+  /* border: 1px solid black; */
+  margin: -1.5em 1em 1em 1.55em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: white; */
+}
+
+.middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 70px;
+  font-weight: 100;
+  padding-bottom: 0.3em;
+  /* background-color: white; */
+}
+
+.left {
+  align-items: flex-end;
+  padding-right: 2em;
+}
+
+.right {
+  align-items: flex-start;
+  padding-left: 2em;
+}
+
+.graph {
+  border: 1px solid #c0c0c0;
+  margin: -1.5em 1.55em 0em 1.55em;
+  width: 96%;
+  height: 370px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 9px;
+}
+
+.logs {
+  margin: 1em 1.55em 0em 1.55em;
+  width: 96%;
+  height: 300px;
+  border-radius: 9px;
+  background-color: white;
+  border: 1px solid #c0c0c0;
+}
+
+.number {
+  font-weight: 200;
+  font-size: 45px;
+  color: #3751FF;
+  letter-spacing: 0.3px;
+}
+
+.text {
+  color: black;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+}
+
+.left .text {
+  padding-right: 0.8em;
+}
+
+.right .text {
+  padding-left: 0.8em;
+}
+
+.title {
+  margin: 1em 0em 0em 1.2em;
+  font-size: 15px;
+  color: black;
+  font-weight: 700;
+}
+
+.table {
+  padding: 0.2em 1em 0em 1em;
+}
