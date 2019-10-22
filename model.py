@@ -1,5 +1,5 @@
 import numpy as np
-import pprint, re, random
+import pprint, re, random, pickle, json, argparse
 from datetime import datetime
 from sklearn.cluster import KMeans, Birch, DBSCAN
 
@@ -198,6 +198,12 @@ def preprocess(content):
         f[node] = normalize(f[node], node)
         fvecs.append(f[node])
 
+    with open('fvecs.json', 'w') as fv:
+        json.dump(fvecs, fv, indent=4)
+
+    with open('f.json', 'w') as feat:
+        json.dump(f, feat, indent=4)
+
     print("Normalizing Done!")
 
 
@@ -207,7 +213,10 @@ def preprocess(content):
 def train():
     # PHASE 1 - UNSUPERVISED LEARNING
 
-    X = np.array(fvecs)
+    with open("fvecs.json", "r") as fv:
+        sfvecs = json.load(fv)
+
+    X = np.array(sfvecs)
 
     # K-Means Clustering
 
@@ -227,7 +236,16 @@ def train():
 
 
 def test():
-    pass
+    outputs = {}
+    dbscan = pickle.load(open("dbscan.pkl", "rb"))
+
+    for lb in dbscan.labels_:
+        if lb not in outputs:
+            outputs[lb] = 1
+        else:
+            outputs[lb] += 1
+
+    print(outputs)
 
 
 def mod(content):
@@ -259,10 +277,21 @@ def mod(content):
     return (train, test)
 
 
-def main():
+
+if __name__ == '__main__':
+    # FLAGS
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument("--train", help="trains model", action="store_true")
+    parser.add_argument("--test", help="evaluates model", action="store_true")
+
+    args = parser.parse_args()
+
     start = datetime.now()
     start_time = start.strftime("%H:%M:%S")
     print("Start Time =", start_time)
+
+    #########################################
 
     content = read('./datasets/42.csv')
 
@@ -270,18 +299,19 @@ def main():
 
     Train, Test = mod(content[1:])
 
-    preprocess(Train)
+    if args.train:
+        # PRE-PROCESS THE TRAINING DATASET
+        preprocess(Train)
 
-    print("Done pre-processing!")
+        print("Done pre-processing!")
 
-    train()
+        train()
 
-    print("Training done!")
+    if args.test:
+        test()
+
+    #########################################
 
     end = datetime.now()
     end_time = end.strftime("%H:%M:%S")
     print("Start Time =", end_time)
-
-
-if __name__ == '__main__':
-    main()
