@@ -222,7 +222,7 @@ def train():
 
     kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
 
-    pickle.dump(kmeans, open("kmeans.pkl", "wb"))
+    pickle.dump(kmeans, open("./saved/kmeans.pkl", "wb"))
 
     print(kmeans.labels_)
 
@@ -230,14 +230,14 @@ def train():
 
     dbscan = DBSCAN(eps=0.5, min_samples=5).fit(X)
 
-    pickle.dump(dbscan, open("dbscan.pkl", "wb"))
+    pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
 
     print(dbscan.labels_)
 
 
 def test():
     outputs = {}
-    dbscan = pickle.load(open("dbscan.pkl", "rb"))
+    dbscan = pickle.load(open("./saved/dbscan.pkl", "rb"))
 
     for lb in dbscan.labels_:
         if lb not in outputs:
@@ -281,7 +281,7 @@ def mod(content):
 if __name__ == '__main__':
     # FLAGS
     parser = argparse.ArgumentParser()
-    
+
     parser.add_argument("--train", help="trains model", action="store_true")
     parser.add_argument("--test", help="evaluates model", action="store_true")
 
