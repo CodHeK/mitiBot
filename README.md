@@ -29,3 +29,8 @@ Once trained, it creates the pickle files of the model and saves it in the `save
 ```
 python3 model.py --test
 ```
+
+### Reference
+
+The following code is the implementation of the [paper](https://arxiv.org/pdf/1902.08538.pdf)
+with slight modifications.
