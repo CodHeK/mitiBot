@@ -363,4 +363,4 @@ if __name__ == '__main__':
 
     end = datetime.now()
     end_time = end.strftime("%H:%M:%S")
-    print("Start Time =", end_time)
+    print("End Time =", end_time)
