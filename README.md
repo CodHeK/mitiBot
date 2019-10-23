@@ -34,9 +34,9 @@ python3 model.py --test
 
 - Initially considering `15k` sized test dataset containing `5k bot flows` and `10k non-bot flows`
 - Cluster sizes:
-  ![cluster_png]('./screenshots/cluster_sizes.png')
+  ![cluster_png](screenshots/cluster_sizes.png)
 - Test run:
-  ![dbscan_lr_test]('./screenshots/dbscan_lr_test.png')
+  ![dbscan_lr_test](screenshots/dbscan_lr_test.png)
 - Test time:
   ```
    Avg: 50s-60s
