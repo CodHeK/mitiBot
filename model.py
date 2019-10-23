@@ -3,6 +3,7 @@ import pprint, re, random, pickle, json, argparse
 from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans, Birch, DBSCAN
+from sklearn.linear_model import LogisticRegression
 
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -207,10 +208,10 @@ def preprocess(content):
         f[node][0] = normalize(f[node][0], node)
         fvecs.append(f[node][0])
 
-    with open('fvecs.json', 'w') as fv:
+    with open('./saved/fvecs.json', 'w') as fv:
         json.dump(fvecs, fv, indent=4)
 
-    with open('f.json', 'w') as feat:
+    with open('./saved/f.json', 'w') as feat:
         json.dump(f, feat, indent=4)
 
     print("Normalizing Done!")
@@ -219,10 +220,10 @@ def preprocess(content):
 '''
     Phase 1 (UL) and 2 (SL) of training
 '''
-def train():
+def train_p1():
     # PHASE 1 - UNSUPERVISED LEARNING
 
-    with open("fvecs.json", "r") as fv:
+    with open("./saved/fvecs.json", "r") as fv:
         sfvecs = json.load(fv)
 
     X = np.array(sfvecs)
@@ -233,15 +234,38 @@ def train():
 
     pickle.dump(kmeans, open("./saved/kmeans.pkl", "wb"))
 
-    print(kmeans.labels_)
-
     # DBSCAN Clustering
 
     dbscan = DBSCAN(eps=0.5, min_samples=5).fit(X)
 
     pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
 
-    print(dbscan.labels_)
+    print("Done with PHASE 1 of Training!")
+
+
+def train_p2():
+    # PHASE 2 - SUPERVISED LEARNING
+
+    with open("./saved/f.json", "r") as feat:
+        sf = json.load(feat)
+
+
+    dbscan = pickle.load(open("./saved/dbscan.pkl", "rb"))
+    preds = dbscan.labels_
+
+    X = []
+    y = []
+
+    for i, item in enumerate(sf):
+        if preds[i] != 0:
+            X.append(sf[item][0])
+            y.append(sf[item][1])
+
+    LR = LogisticRegression().fit(X, y)
+
+    pickle.dump(LR, open("./saved/LR.pkl", "wb"))
+
+    print("Done with PHASE 2 of Training!")
 
 
 def test():
@@ -253,6 +277,13 @@ def test():
             outputs[lb] = 1
         else:
             outputs[lb] += 1
+
+    c = 0
+    for i in outputs:
+        if i != 0:
+            c += outputs[i]
+
+    print(c)
 
     # PLOT CLUSTER SIZES
 
@@ -302,7 +333,8 @@ if __name__ == '__main__':
     # FLAGS
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--train", help="trains model", action="store_true")
+    parser.add_argument("--phase1", help="trains model", action="store_true")
+    parser.add_argument("--phase2", help="trains model", action="store_true")
     parser.add_argument("--test", help="evaluates model", action="store_true")
 
     args = parser.parse_args()
@@ -319,13 +351,18 @@ if __name__ == '__main__':
 
     Train, Test = mod(content[1:])
 
-    if args.train:
-        # PRE-PROCESS THE TRAINING DATASET
+    if args.phase1:
+        # PRE-PROCESS THE TRAINING DATASET & UNSUPERVISED LEARNING
         preprocess(Train)
 
         print("Done pre-processing!")
 
-        train()
+        train_p1()
+
+    if args.phase2:
+        # PERFORM SUPERVISED LEARNING
+
+        train_p2()
 
     if args.test:
         test()
