@@ -1,6 +1,7 @@
 import numpy as np
 import pprint, re, random, pickle, json, argparse
 from datetime import datetime
+import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans, Birch, DBSCAN
 
 
@@ -9,6 +10,7 @@ pp = pprint.PrettyPrinter(indent=4)
 # GLOBAL VALUES
 graph = {}
 nodes = {}
+node_map = {}
 
 # FEATURES
 id_count = {}
@@ -35,14 +37,22 @@ def extract(x):
         sip = x.split(',')[3]
         dip = x.split(',')[6]
 
-        if sip not in nodes:
-            nodes[sip] = 1
-        if dip not in nodes:
-            nodes[dip] = 1
+        nodes[sip] = 1
+
+        # if sip not in nodes:
+        #     nodes[sip] = 1
+        # if dip not in nodes:
+        #     nodes[dip] = 1
 
         byteSize = int(x.split(',')[12])/int(x.split(',')[11])
         srcpkts = int(x.split(',')[13])/byteSize
         dstpkts = int(x.split(',')[11]) - srcpkts
+        flow = x.split(',')[14]
+
+        if len(re.findall("Botnet", str(flow))) > 0:
+            node_map[sip] = 1
+        else:
+            node_map[sip] = 0
 
         # SIP -> DIP
         if sip not in graph:
@@ -161,7 +171,7 @@ def normalize(fn, node):
             if node in graph:
                 if n in graph[node]:
                     N += 1
-                    sumF += np.array(f[n]).astype('float64')
+                    sumF += np.array(f[n][0]).astype('float64')
 
     if N > 0:
         u = sumF/float(N)
@@ -187,16 +197,15 @@ def preprocess(content):
 
     print(len(nodes))
     for node in nodes:
-        f[node] = [ ID(node), OD(node), IDW(node), ODW(node), LCC(node) ]
-        # print(str(node) + " done ...")
+        f[node] = [ [ ID(node), OD(node), IDW(node), ODW(node), LCC(node) ], node_map[node] ]
 
     print("Feature Extraction done!")
 
     # NORMALIZE
 
     for node in nodes:
-        f[node] = normalize(f[node], node)
-        fvecs.append(f[node])
+        f[node][0] = normalize(f[node][0], node)
+        fvecs.append(f[node][0])
 
     with open('fvecs.json', 'w') as fv:
         json.dump(fvecs, fv, indent=4)
@@ -244,6 +253,17 @@ def test():
             outputs[lb] = 1
         else:
             outputs[lb] += 1
+
+    # PLOT CLUSTER SIZES
+
+    # x = [ v for v in outputs ]
+    #
+    # x.sort()
+    #
+    # y = [ outputs[i] for i in x ]
+    #
+    # plt.plot(x, y, 'ro')
+    # plt.show()
 
     print(outputs)
 
