@@ -254,7 +254,7 @@ def train_p2():
 
     pickle.dump(LR, open("./saved/LR.pkl", "wb"))
 
-    print("Done with PHASE 2 of Training!")
+    print("Done with PHASE 2 of Training! - DBSCAN")
 
 
 def test():
@@ -269,7 +269,7 @@ def test():
             acc += 1
 
 
-    print("Accuracy: " + str((acc*100)/float(len(sf))) + " %")
+    print("Accuracy: " + str((acc*100)/float(len(sf))) + " % - (DBSAN + LR)")
 
 
 def mod(content):
@@ -289,13 +289,10 @@ def mod(content):
         else:
             bot_tuples.append(line)
 
-    random.shuffle(non_bot_tuples)
-    random.shuffle(bot_tuples)
-
     test = non_bot_tuples[:10000] + bot_tuples[:5000]
     train = non_bot_tuples[10000:] + bot_tuples[5000:]
 
-    random.shuffle(test)
+    random.shuffle(train)
     random.shuffle(test)
 
     return (train, test)
@@ -352,7 +349,6 @@ if __name__ == '__main__':
 
     if args.phase2:
         # PERFORM SUPERVISED LEARNING
-
         train_p2()
 
     if args.test:
