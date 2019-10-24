@@ -338,7 +338,6 @@ def test():
         if str(LR.predict([ sf[item][0] ])[0]) == str(sf[item][1]):
             acc += 1
 
-
     print("Accuracy: " + str((acc*100)/float(len(sf))) + " % - (DBSAN + LR)")
 
 
@@ -359,6 +358,7 @@ if __name__ == '__main__':
     print("Start Time =", start_time)
 
     #########################################
+    
     if args.train:
         b = Build('./datasets/42.csv')
         b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
