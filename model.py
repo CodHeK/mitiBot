@@ -10,8 +10,8 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 class Build:
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, filepath):
+        self.data = []
         self.graph = {}
         self.nodes = {}
         self.node_map = {}
@@ -22,6 +22,76 @@ class Build:
         self.lcc_count = {}
         self.f = {}
         self.fvecs = []
+        self.content = self.read(filepath)
+        self.non_bot_tuples, self.bot_tuples = self.mod(self.content[1:])
+
+
+    '''
+        File read helper function
+    '''
+    def read(self, filename):
+        with open(filename, 'r') as file:
+            content = file.readlines()
+        file.close()
+
+        print("Read Dataset...")
+
+        return content
+
+
+    '''
+        Return tuples containing non-bot flows and bot-flows separately
+    '''
+    def mod(self, content):
+        non_bot_tuples = []
+        bot_tuples = []
+
+        non_bot_flow_tuples = 97850
+
+        for line in content:
+            flow = line.split(',')[14]
+
+            # NON BOTNET FLOWS
+            if len(re.findall("Botnet", str(flow))) == 0:
+                if non_bot_flow_tuples > 0:
+                    non_bot_flow_tuples -= 1
+                    non_bot_tuples.append(line)
+            else:
+                bot_tuples.append(line)
+
+        return (non_bot_tuples, bot_tuples)
+
+
+    def build_train_set(self, nb, b):
+        train_set = nb + b
+        random.shuffle(train_set)
+
+        print("Built training dataset...")
+
+        return train_set
+
+
+    def build_test_set(self, nb, b, p):
+        print("Total tuples to choose test set from: " + str(len(nb + b)) + " = " + str(len(nb)) + " + " + str(len(b)))
+
+        tnb = int((p*len(nb))/100)
+
+        random.shuffle(nb)
+        random.shuffle(b)
+
+        test_set = nb[:tnb] + b
+
+        print("Total non-bot tuples: " + str(tnb) + " -> " + str((tnb*100)/float(tnb+len(b))) + " %")
+
+        print("Total bot tuples: " + str(len(b)) + " -> " + str((len(b)*100)/float(tnb+len(b))) + " %")
+
+        random.shuffle(test_set)
+
+        print("Total size of test set: " + str(tnb + len(b)))
+
+        print("Built testing dataset...")
+
+        return test_set
 
 
     '''
@@ -272,64 +342,6 @@ def test():
     print("Accuracy: " + str((acc*100)/float(len(sf))) + " % - (DBSAN + LR)")
 
 
-def mod(content, nb, b):
-    non_bot_tuples = []
-    bot_tuples = []
-
-    non_bot_flow_tuples = 97850
-
-    for line in content:
-        flow = line.split(',')[14]
-
-        # NON BOTNET FLOWS
-        if len(re.findall("Botnet", str(flow))) == 0:
-            if non_bot_flow_tuples > 0:
-                non_bot_flow_tuples -= 1
-                non_bot_tuples.append(line)
-        else:
-            bot_tuples.append(line)
-
-    return (non_bot_tuples, bot_tuples)
-
-
-def build_train_set(nb, b):
-    train_set = nb + b
-    random.shuffle(train_set)
-
-    print("Built training dataset...")
-
-    return train_set
-
-
-def build_test_set(nb, b, p):
-    print("Total tuples to choose test set from: " + str(len(nb + b)) + " = " + str(len(nb)) + " + " + str(len(b)))
-
-    tnb = int((p*len(nb))/100)
-
-    random.shuffle(nb)
-    random.shuffle(b)
-
-    test_set = nb[:tnb] + b
-
-    print("Total non-bot tuples: " + str(tnb) + " -> " + str((tnb*100)/float(tnb+len(b))) + " %")
-
-    print("Total bot tuples: " + str(len(b)) + " -> " + str((len(b)*100)/float(tnb+len(b))) + " %")
-
-    random.shuffle(test_set)
-
-    print("Total size of test set: " + str(tnb + len(b)))
-
-    print("Built testing dataset...")
-
-    return test_set
-
-
-def read(filename):
-    with open(filename, 'r') as file:
-        content = file.readlines()
-    file.close()
-    return content
-
 
 if __name__ == '__main__':
     # FLAGS
@@ -347,16 +359,9 @@ if __name__ == '__main__':
     print("Start Time =", start_time)
 
     #########################################
-
-    content = read('./datasets/43.csv')
-
-    print("Read Dataset...")
-
-    non_bot_tuples, bot_tuples = mod(content[1:], 10000, 5000)
-
     if args.train:
-        Train = build_train_set(non_bot_tuples, bot_tuples)
-        b = Build(Train)
+        b = Build('./datasets/42.csv')
+        b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
         b.preprocess()
 
         print("Done pre-processing on Train set!")
@@ -367,8 +372,8 @@ if __name__ == '__main__':
 
     if args.phase1:
         # PRE-PROCESS THE TRAINING DATASET & UNSUPERVISED LEARNING
-        Train = build_train_set(non_bot_tuples, bot_tuples)
-        b = Build(Train)
+        b = Build('./datasets/42.csv')
+        b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
         b.preprocess()
 
         print("Done pre-processing on Train set!")
@@ -380,8 +385,8 @@ if __name__ == '__main__':
         train_p2()
 
     if args.test:
-        Test = build_test_set(non_bot_tuples, bot_tuples, 50)
-        t = Build(Test)
+        t = Build('./datasets/43.csv')
+        t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 10)
         t.preprocess()
 
         print("Done pre-processing on Test set!")
