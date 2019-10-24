@@ -289,13 +289,36 @@ def mod(content, nb, b):
         else:
             bot_tuples.append(line)
 
-    test = non_bot_tuples[:nb] + bot_tuples[:b]
-    train = non_bot_tuples[nb:] + bot_tuples[b:]
+    return (non_bot_tuples, bot_tuples)
 
-    random.shuffle(train)
-    random.shuffle(test)
 
-    return (train, test)
+def build_train_set(nb, b):
+    train_set = nb + b
+    random.shuffle(train_set)
+
+    print("Built training dataset...")
+
+    return train_set
+
+
+def build_test_set(t, nb, b, p, q):
+    # USING t % (nb + b) => (t % nb + t % b)
+    tnb = (t*len(nb))/100
+    tb = (t*len(b))/100
+
+    nb_split = int(min(tnb, (p*(tnb+tb))/100))
+    b_split = int(min(tb, (q*(tnb+tb))/100))
+
+    random.shuffle(nb)
+    random.shuffle(b)
+
+    test_set = nb[:nb_split] + b[:b_split]
+
+    random.shuffle(test_set)
+
+    print("Built testing dataset...")
+
+    return test_set
 
 
 def read(filename):
@@ -326,9 +349,10 @@ if __name__ == '__main__':
 
     print("Read Dataset...")
 
-    Train, Test = mod(content[1:], 10000, 5000)
+    non_bot_tuples, bot_tuples = mod(content[1:], 10000, 5000)
 
     if args.train:
+        Train = build_train_set(non_bot_tuples, bot_tuples)
         b = Build(Train)
         b.preprocess()
 
@@ -340,6 +364,7 @@ if __name__ == '__main__':
 
     if args.phase1:
         # PRE-PROCESS THE TRAINING DATASET & UNSUPERVISED LEARNING
+        Train = build_train_set(non_bot_tuples, bot_tuples)
         b = Build(Train)
         b.preprocess()
 
@@ -352,6 +377,7 @@ if __name__ == '__main__':
         train_p2()
 
     if args.test:
+        Test = build_test_set(75, non_bot_tuples, bot_tuples, 60, 40)
         t = Build(Test)
         t.preprocess()
 
