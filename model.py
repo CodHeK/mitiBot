@@ -301,20 +301,23 @@ def build_train_set(nb, b):
     return train_set
 
 
-def build_test_set(t, nb, b, p, q):
-    # USING t % (nb + b) => (t % nb + t % b)
-    tnb = (t*len(nb))/100
-    tb = (t*len(b))/100
+def build_test_set(nb, b, p):
+    print("Total tuples to choose test set from: " + str(len(nb + b)) + " = " + str(len(nb)) + " + " + str(len(b)))
 
-    nb_split = int(min(tnb, (p*(tnb+tb))/100))
-    b_split = int(min(tb, (q*(tnb+tb))/100))
+    tnb = int((p*len(nb))/100)
 
     random.shuffle(nb)
     random.shuffle(b)
 
-    test_set = nb[:nb_split] + b[:b_split]
+    test_set = nb[:tnb] + b
+
+    print("Total non-bot tuples: " + str(tnb) + " -> " + str((tnb*100)/float(tnb+len(b))) + " %")
+
+    print("Total bot tuples: " + str(len(b)) + " -> " + str((len(b)*100)/float(tnb+len(b))) + " %")
 
     random.shuffle(test_set)
+
+    print("Total size of test set: " + str(tnb + len(b)))
 
     print("Built testing dataset...")
 
@@ -377,7 +380,7 @@ if __name__ == '__main__':
         train_p2()
 
     if args.test:
-        Test = build_test_set(75, non_bot_tuples, bot_tuples, 60, 40)
+        Test = build_test_set(non_bot_tuples, bot_tuples, 50)
         t = Build(Test)
         t.preprocess()
 

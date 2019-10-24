@@ -58,6 +58,16 @@ Test time:
   Avg: 2m - 2m,30s
 ```
 
+Considering a bigger dataset of size `69k` containing `49k bot flows` and `20k non-bot flows` = `[70-30] split`
+#
+Test run:
+#
+![dbscan_lr_test](screenshots/dbscan_lr_test69k.png)
+#
+Test time:
+```
+  Avg: 14m - 15m
+```
 
 ### Reference
 
