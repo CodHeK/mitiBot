@@ -272,7 +272,7 @@ def test():
     print("Accuracy: " + str((acc*100)/float(len(sf))) + " % - (DBSAN + LR)")
 
 
-def mod(content):
+def mod(content, nb, b):
     non_bot_tuples = []
     bot_tuples = []
 
@@ -289,8 +289,8 @@ def mod(content):
         else:
             bot_tuples.append(line)
 
-    test = non_bot_tuples[:10000] + bot_tuples[:5000]
-    train = non_bot_tuples[10000:] + bot_tuples[5000:]
+    test = non_bot_tuples[:nb] + bot_tuples[:b]
+    train = non_bot_tuples[nb:] + bot_tuples[b:]
 
     random.shuffle(train)
     random.shuffle(test)
@@ -322,11 +322,11 @@ if __name__ == '__main__':
 
     #########################################
 
-    content = read('./datasets/42.csv')
+    content = read('./datasets/43.csv')
 
     print("Read Dataset...")
 
-    Train, Test = mod(content[1:])
+    Train, Test = mod(content[1:], 10000, 5000)
 
     if args.train:
         b = Build(Train)

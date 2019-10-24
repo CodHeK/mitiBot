@@ -30,21 +30,32 @@ Once trained, it creates the pickle files of the model and saves it in the `save
 python3 model.py --test
 ```
 
+Cluster sizes:
+#
+![cluster_png](screenshots/cluster_sizes.png)
+
 ### DBSCAN + Logistic Regression
 
 Initially considering `15k` sized test dataset containing `5k bot flows` and `10k non-bot flows`
 #
-Cluster sizes:
-#
-![cluster_png](screenshots/cluster_sizes.png)
-#
 Test run:
 #
-![dbscan_lr_test](screenshots/dbscan_lr_test.png)
+![dbscan_lr_test](screenshots/dbscan_lr_test15k.png)
 #
 Test time:
 ```
   Avg: 50s-60s
+```
+
+Considering a bigger dataset of size `30k` containing `10k bot flows` and `20k non-bot flows`
+#
+Test run:
+#
+![dbscan_lr_test](screenshots/dbscan_lr_test30k.png)
+#
+Test time:
+```
+  Avg: 2m - 2m,30s
 ```
 
 
