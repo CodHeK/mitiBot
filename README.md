@@ -30,7 +30,7 @@ Once trained, it creates the pickle files of the model and saves it in the `save
 python3 model.py --test
 ```
 
-Cluster sizes:
+### Cluster sizes:
 #
 ![cluster_png](screenshots/cluster_sizes.png)
 
