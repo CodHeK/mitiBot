@@ -138,7 +138,7 @@ class Build:
                 if dip in self.graph[sip]:
                     dstpktsX = self.graph[dip][sip][0]
                     srcpktsY = self.graph[sip][dip][1][1]
-                    self.graph[dip][sip] = (dstpktsX + srcpktsY, (srcpkts, dstpkts))
+                    self.graph[dip][sip] = (srcpktsY + dstpktsX, (srcpkts, dstpkts))
 
             return (sip, dip)
 
@@ -148,7 +148,7 @@ class Build:
     '''
     def normalize(self, fn, node):
         N = 0
-        sumF = np.array([0, 0, 0, 0, 0]).astype('float64')
+        sumF = np.array([0, 0, 0, 0]).astype('float64')
         for n in self.nodes:
             if n != node:
                 if node in self.graph:
@@ -174,20 +174,39 @@ class Build:
         for line in self.data:
             self.extract(line)
 
+        node_dict = {}
+        for n in self.node_map:
+            if self.node_map[n] not in node_dict:
+                node_dict[self.node_map[n]] = 1
+            else:
+                node_dict[self.node_map[n]] += 1
+
+        print(node_dict)
+
         print("Graph built!")
 
         # FOR EACH NODE CALCULATE THE FEATURE TUPLE [ F0, F1, F2, F3, F4 ]
 
+        # bots = 0
+        # for it in self.node_map:
+        #     if self.node_map[it] == 1:
+        #         bots += 1
+
         print(len(self.nodes))
+        # print(bots)
+
         for node in self.nodes:
-            self.f[node] = [ [ self.ID(node), self.OD(node), self.IDW(node), self.ODW(node), self.LCC(node) ], self.node_map[node] ]
+            self.f[node] = [ [ self.ID(node), self.OD(node), self.IDW(node), self.ODW(node) ], self.node_map[node] ]
 
         print("Feature Extraction done!")
+
+        with open('./saved/f.json', 'w') as feat:
+            json.dump(self.f, feat, indent=4)
 
         # NORMALIZE
 
         for node in self.nodes:
-            self.f[node][0] = self.normalize(self.f[node][0], node)
+            # self.f[node][0] = self.normalize(self.f[node][0], node)
             self.fvecs.append(self.f[node][0])
 
         with open('./saved/fvecs.json', 'w') as fv:

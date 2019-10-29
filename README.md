@@ -1,6 +1,32 @@
 # mitiBot
 A Graph based machine learning approach to bot mitigation systems.
 
+### Datasets
+
+Step 1:
+  ```
+  mkdir datasets
+  ```
+
+Step 2:
+  Use curl to install the required data files from [https://www.stratosphereips.org/datasets-ctu13](https://www.stratosphereips.org/datasets-ctu13)
+
+  ```
+  cd datasets
+  ```
+
+  Download directly into this folder:
+  ```
+  curl https://mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-42/detailed-bidirectional-flow-labels/capture20110810.binetflow -k -o 42.csv
+
+  curl https://mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-43/detailed-bidirectional-flow-labels/capture20110811.binetflow -k -o 43.csv
+
+  curl https://mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-50/detailed-bidirectional-flow-labels/capture20110817.binetflow -k -o 50.csv
+
+  curl https://mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-51/detailed-bidirectional-flow-labels/capture20110818.binetflow -k -o 51.csv
+  ```
+
+
 ### Training
 
 You can train the model in 2 ways, as it has PHASE 1 (UNSUPERVISED) and PHASE 2 (SUPERVISED)
@@ -26,6 +52,7 @@ Once trained, it creates the pickle files of the model and saves it in the `save
 
 ### Testing
 
+Using the command below will use the pre-trained classifier saved in the pickle file in the `saved` folder.
 ```
 python3 model.py --test
 ```
@@ -34,39 +61,30 @@ python3 model.py --test
 #
 ![cluster_png](screenshots/cluster_sizes.png)
 
-### DBSCAN + Logistic Regression
+### DBSCAN + Naive Bayes Classifer
 
-Initially considering `15k` sized test dataset containing `5k bot flows` and `10k non-bot flows`
+Tested on the data file `50.csv` can see ratio of tuples in the image below.
 #
 Test run:
 #
-![dbscan_lr_test](screenshots/dbscan_lr_test15k.png)
+![test50](screenshots/test50.png)
 #
 Test time:
 ```
-  Avg: 50s-60s
+  Avg: 6m-7m
 ```
 
-Considering a bigger dataset of size `30k` containing `10k bot flows` and `20k non-bot flows`
+### DBSCAN + Naive Bayes Classifer
+
+Tested on the data file `51.csv` can see ratio of tuples in the image below.
 #
 Test run:
 #
-![dbscan_lr_test](screenshots/dbscan_lr_test30k.png)
+![test51](screenshots/test51.png)
 #
 Test time:
 ```
-  Avg: 2m - 2m,30s
-```
-
-Considering a bigger dataset of size `69k` containing `49k bot flows` and `20k non-bot flows` = `[70-30] split`
-#
-Test run:
-#
-![dbscan_lr_test](screenshots/dbscan_lr_test69k.png)
-#
-Test time:
-```
-  Avg: 14m - 15m
+  Avg: 3m-4m
 ```
 
 ### Reference

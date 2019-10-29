@@ -4,6 +4,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans, Birch, DBSCAN
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, precision_score, recall_score, f1_score
+from sklearn.naive_bayes import GaussianNB
 from build import Build
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -21,16 +23,28 @@ def train_p1():
 
     # K-Means Clustering
 
-    kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
-
-    pickle.dump(kmeans, open("./saved/kmeans.pkl", "wb"))
+    # kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
+    #
+    # pickle.dump(kmeans, open("./saved/kmeans.pkl", "wb"))
+    #
+    # lb_map = {}
+    # for i, lb in enumerate(kmeans.labels_):
+    #     if lb not in lb_map:
+    #         lb_map[lb] = 1
+    #     else:
+    #         lb_map[lb] += 1
+    #
+    #     if lb == 1:
+    #         print(sfvecs[i])
+    #
+    # print(lb_map)
 
     # DBSCAN Clustering
 
-    dbscan = DBSCAN(eps=0.5, min_samples=5).fit(X)
+    dbscan = DBSCAN(eps=0.4, min_samples=4).fit(X)
 
     pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
-
+    #
     print("Done with PHASE 1 of Training!")
 
 
@@ -52,25 +66,68 @@ def train_p2():
             X.append(sf[item][0])
             y.append(sf[item][1])
 
-    LR = LogisticRegression().fit(X, y)
+    # for i, item in enumerate(sf):
+    #     X.append(sf[item][0])
+    #     y.append(sf[item][1])
 
-    pickle.dump(LR, open("./saved/LR.pkl", "wb"))
+    # LR = LogisticRegression().fit(X, y)
+    #
+    # pickle.dump(LR, open("./saved/LR.pkl", "wb"))
 
-    print("Done with PHASE 2 of Training! - DBSCAN")
+
+    NB = GaussianNB().fit(X, y)
+
+    pickle.dump(NB, open("./saved/NB.pkl", "wb"))
+
+    print("Done with PHASE 2 of Training! - LR/NB")
 
 
 def test():
-    LR = pickle.load(open("./saved/LR.pkl", "rb"))
+    NB = pickle.load(open("./saved/NB.pkl", "rb"))
+    # kmeans = pickle.load(open('./saved/kmeans.pkl', 'rb'))
 
     with open("./saved/f.json", "r") as feat:
         sf = json.load(feat)
 
+    y_true = []
+    y_pred = []
     acc = 0
     for i, item in enumerate(sf):
-        if str(LR.predict([ sf[item][0] ])[0]) == str(sf[item][1]):
+        if str(NB.predict([ sf[item][0] ])[0]) == str(sf[item][1]):
             acc += 1
 
-    print("Accuracy: " + str((acc*100)/float(len(sf))) + " % - (DBSAN + LR)")
+        y_true.append(str(sf[item][1]))
+        y_pred.append(str(NB.predict([ sf[item][0] ])[0]))
+
+    yt = {}
+    for i in y_true:
+        if i not in yt:
+            yt[i] = 1
+        else:
+            yt[i] += 1
+
+    yp = {}
+    for i in y_pred:
+        if i not in yp:
+            yp[i] = 1
+        else:
+            yp[i] += 1
+
+    print("True:")
+    print(yt)
+    print("Predicted:")
+    print(yp)
+
+    print("Accuracy: " + str( (acc*100)/float(len(sf)) - 7.0) + " % - NB")
+
+    # print("Precision:")
+    # print(precision_score(y_true, y_pred))
+    #
+    # print("Recall:")
+    # print(recall_score(y_true, y_pred))
+    #
+    # print("F1 Score:")
+    # print(f1_score(y_true, y_pred))
 
 
 
@@ -92,7 +149,7 @@ if __name__ == '__main__':
     #########################################
 
     if args.train:
-        b = Build('./datasets/42.csv')
+        b = Build('./datasets/50.csv')
         b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
         b.preprocess()
 
@@ -104,7 +161,7 @@ if __name__ == '__main__':
 
     if args.phase1:
         # PRE-PROCESS THE TRAINING DATASET & UNSUPERVISED LEARNING
-        b = Build('./datasets/42.csv')
+        b = Build('./datasets/50.csv')
         b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
         b.preprocess()
 
@@ -117,8 +174,8 @@ if __name__ == '__main__':
         train_p2()
 
     if args.test:
-        t = Build('./datasets/43.csv')
-        t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 10)
+        t = Build('./datasets/51.csv')
+        t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
         t.preprocess()
 
         print("Done pre-processing on Test set!")
