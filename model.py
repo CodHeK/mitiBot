@@ -149,7 +149,7 @@ if __name__ == '__main__':
     #########################################
 
     if args.train:
-        b = Build('./datasets/50.csv')
+        b = Build(['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv'])
         b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
         b.preprocess()
 
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
     if args.phase1:
         # PRE-PROCESS THE TRAINING DATASET & UNSUPERVISED LEARNING
-        b = Build('./datasets/50.csv')
+        b = Build(['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv'])
         b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
         b.preprocess()
 
@@ -174,7 +174,7 @@ if __name__ == '__main__':
         train_p2()
 
     if args.test:
-        t = Build('./datasets/51.csv')
+        t = Build(['50.csv', '51.csv'])
         t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
         t.preprocess()
 

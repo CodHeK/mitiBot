@@ -3,7 +3,7 @@ import pprint, re, random, pickle, json, argparse
 from datetime import datetime
 
 class Build:
-    def __init__(self, filepath):
+    def __init__(self, files):
         self.data = []
         self.graph = {}
         self.nodes = {}
@@ -15,21 +15,26 @@ class Build:
         self.lcc_count = {}
         self.f = {}
         self.fvecs = []
-        self.content = self.read(filepath)
-        self.non_bot_tuples, self.bot_tuples = self.mod(self.content[1:])
+        self.content = self.read(files)
+        self.non_bot_tuples, self.bot_tuples = self.mod(self.content)
 
 
     '''
         File read helper function
     '''
-    def read(self, filename):
-        with open(filename, 'r') as file:
-            content = file.readlines()
-        file.close()
+    def read(self, files):
+        combined_content = []
+        for file in files:
+            with open('./datasets/' + str(file), 'r') as of:
+                content = of.readlines()
+                for line in content[1:]:
+                    combined_content.append(line)
+            of.close()
+            print("Read file - " + str(file))
 
         print("Read Dataset...")
 
-        return content
+        return combined_content
 
 
     '''
