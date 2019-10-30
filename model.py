@@ -44,30 +44,30 @@ def train_p1():
 
     pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
 
-    klb_map = arrToDic(kmeans.labels_)
-
-    dblb_map = arrToDic(dbscan.labels_)
-
-    sorted(klb_map.items(), key=lambda kv: kv[0])
-    sorted(dblb_map.items(), key=lambda kv: kv[0])
-
-    print("Kmeans cluster: ")
-    print(klb_map)
-
-    print("DBScan cluster: ")
-    print(dblb_map)
-
-    x_k = [ v for v in klb_map ]
-    y_k = [ klb_map[v] for v in klb_map ]
-
-    x_db = [ v for v in dblb_map ]
-    y_db = [ dblb_map[v] for v in dblb_map ]
-
-    plt.plot(x_k, y_k, 'ro')
-    plt.show()
-
-    plt.plot(x_db, y_db, 'ro')
-    plt.show()
+    # klb_map = arrToDic(kmeans.labels_)
+    #
+    # dblb_map = arrToDic(dbscan.labels_)
+    #
+    # sorted(klb_map.items(), key=lambda kv: kv[0])
+    # sorted(dblb_map.items(), key=lambda kv: kv[0])
+    #
+    # print("Kmeans cluster: ")
+    # print(klb_map)
+    #
+    # print("DBScan cluster: ")
+    # print(dblb_map)
+    #
+    # x_k = [ v for v in klb_map ]
+    # y_k = [ klb_map[v] for v in klb_map ]
+    #
+    # x_db = [ v for v in dblb_map ]
+    # y_db = [ dblb_map[v] for v in dblb_map ]
+    #
+    # plt.plot(x_k, y_k, 'ro')
+    # plt.show()
+    #
+    # plt.plot(x_db, y_db, 'ro')
+    # plt.show()
 
     print("Done with PHASE 1 of Training!")
 
@@ -95,12 +95,18 @@ def train_p2():
 
     dblb_map = arrToDic(dbscan.labels_)
 
-    sorted(klb_map.items(), key=lambda kv: kv[1])
-    sorted(dblb_map.items(), key=lambda kv: kv[1])
+    klb_map = sorted(klb_map.items(), key=lambda kv: kv[1], reverse=True)
+    dblb_map = sorted(dblb_map.items(), key=lambda kv: kv[1], reverse=True)
 
     # Getting label with max frequency -> Benign hosts
-    k_label = list(klb_map.keys())[0]
-    db_label = list(dblb_map.keys())[0]
+    k_label = klb_map[0][0]
+    db_label = dblb_map[0][0]
+
+    print(klb_map)
+    print(dblb_map)
+
+    print(k_label)
+    print(db_label)
 
     for i, item in enumerate(sf):
         if preds_db[i] != db_label:
@@ -142,26 +148,26 @@ def test():
         y_true.append(str(sf[item][1]))
         y_pred.append(str(NB.predict([ sf[item][0] ])[0]))
 
-    yt = {}
-    for i in y_true:
-        if i not in yt:
-            yt[i] = 1
-        else:
-            yt[i] += 1
+    # yt = {}
+    # for i in y_true:
+    #     if i not in yt:
+    #         yt[i] = 1
+    #     else:
+    #         yt[i] += 1
+    #
+    # yp = {}
+    # for i in y_pred:
+    #     if i not in yp:
+    #         yp[i] = 1
+    #     else:
+    #         yp[i] += 1
+    #
+    # print("True:")
+    # print(yt)
+    # print("Predicted:")
+    # print(yp)
 
-    yp = {}
-    for i in y_pred:
-        if i not in yp:
-            yp[i] = 1
-        else:
-            yp[i] += 1
-
-    print("True:")
-    print(yt)
-    print("Predicted:")
-    print(yp)
-
-    print("Accuracy: " + str( (acc*100)/float(len(sf)) - 7.0) + " % - NB")
+    print("Accuracy: " + str( (acc*100)/float(len(sf)) - 7.0) + " % - (DBScan + NB)")
 
 
 if __name__ == '__main__':

@@ -120,7 +120,7 @@ python3 model.py --test
 
 ### Cluster size maps
 #
- Kmeans(n_clusters=2, random_state=0) | DBScan (eps=0.4, min_samples=4)
+ Kmeans (n_clusters=2, random_state=0) | DBScan (eps=0.4, min_samples=4)
 :-------------------------:|:-------------------------:
 ![cluster_png](screenshots/kmeans.png)  |  ![cluster_png](screenshots/dbscan.png)
 
@@ -137,8 +137,6 @@ Test time:
   Avg: 6m-7m
 ```
 
-### DBSCAN + Naive Bayes Classifer
-
 Tested on the data file `51.csv`.
 #
 Test run:
@@ -150,17 +148,28 @@ Test time:
   Avg: 3m-4m
 ```
 
-### DBSCAN + Naive Bayes Classifer
+Tested on the data files `50.csv` and `51.csv`.
+#
+Test run:
+#
+![test50_51](screenshots/test50_51_db_nb.png)
+#
+Test time:
+```
+  Avg: ~7m
+```
+
+### DBSCAN + Logistic Regression Classifer
 
 Tested on the data files `50.csv` and `51.csv`.
 #
 Test run:
 #
-![test50_51](screenshots/test50_51.png)
+![test50_51](screenshots/test50_51_db_lr.png)
 #
 Test time:
 ```
-  Avg: ~7m
+  Avg: ~6m
 ```
 
 ### Reference
