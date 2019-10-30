@@ -23,27 +23,52 @@ def train_p1():
 
     # K-Means Clustering
 
-    # kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
-    #
-    # pickle.dump(kmeans, open("./saved/kmeans.pkl", "wb"))
-    #
-    # lb_map = {}
-    # for i, lb in enumerate(kmeans.labels_):
-    #     if lb not in lb_map:
-    #         lb_map[lb] = 1
-    #     else:
-    #         lb_map[lb] += 1
-    #
-    #     if lb == 1:
-    #         print(sfvecs[i])
-    #
-    # print(lb_map)
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
+
+    pickle.dump(kmeans, open("./saved/kmeans.pkl", "wb"))
+
 
     # DBSCAN Clustering
 
     dbscan = DBSCAN(eps=0.4, min_samples=4).fit(X)
 
     pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
+
+    klb_map = {}
+    for i, lb in enumerate(kmeans.labels_):
+        if lb not in klb_map:
+            klb_map[lb] = 1
+        else:
+            klb_map[lb] += 1
+
+    dblb_map = {}
+    for i, lb in enumerate(dbscan.labels_):
+        if lb not in dblb_map:
+            dblb_map[lb] = 1
+        else:
+            dblb_map[lb] += 1
+
+
+    sorted(klb_map.items(), key=lambda kv: kv[0])
+    sorted(dblb_map.items(), key=lambda kv: kv[0])
+
+    print("Kmeans cluster: ")
+    print(klb_map)
+
+    print("DBScan cluster: ")
+    print(dblb_map)
+
+    x_k = [ v for v in klb_map ]
+    y_k = [ klb_map[v] for v in klb_map ]
+
+    x_db = [ v for v in dblb_map ]
+    y_db = [ dblb_map[v] for v in dblb_map ]
+
+    plt.plot(x_k, y_k, 'ro')
+    plt.show()
+
+    plt.plot(x_db, y_db, 'ro')
+    plt.show()
 
     print("Done with PHASE 1 of Training!")
 
@@ -56,30 +81,36 @@ def train_p2():
 
 
     dbscan = pickle.load(open("./saved/dbscan.pkl", "rb"))
-    preds = dbscan.labels_
+    preds_db = dbscan.labels_
 
-    X = []
-    y = []
+    kmeans = pickle.load(open("./saved/kmeans.pkl", "rb"))
+    preds_k = kmeans.labels_
+
+    X_db = []
+    y_db = []
+
+    X_k = []
+    y_k = []
 
     for i, item in enumerate(sf):
-        if preds[i] != 0:
-            X.append(sf[item][0])
-            y.append(sf[item][1])
+        if preds_db[i] != 0:
+            X_db.append(sf[item][0])
+            y_db.append(sf[item][1])
 
-    # for i, item in enumerate(sf):
-    #     X.append(sf[item][0])
-    #     y.append(sf[item][1])
+        if pred_k[i] != 0:
+            X_k.append(sf[item][0])
+            X_k.append(sf[item][0])
 
-    # LR = LogisticRegression().fit(X, y)
-    #
-    # pickle.dump(LR, open("./saved/LR.pkl", "wb"))
+    LR = LogisticRegression().fit(X, y)
+
+    pickle.dump(LR, open("./saved/LR.pkl", "wb"))
 
 
     NB = GaussianNB().fit(X, y)
 
     pickle.dump(NB, open("./saved/NB.pkl", "wb"))
 
-    print("Done with PHASE 2 of Training! - LR/NB")
+    print("Done with PHASE 2 of Training!")
 
 
 def test():
@@ -153,13 +184,7 @@ if __name__ == '__main__':
         train_p2()
 
     if args.phase1:
-        # PRE-PROCESS THE TRAINING DATASET & UNSUPERVISED LEARNING
-        b = Build(['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv'])
-        b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
-        b.preprocess()
-
-        print("Done pre-processing on Train set!")
-
+        # PERFORM UNSUPERVISED LEARNING
         train_p1()
 
     if args.phase2:

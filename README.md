@@ -96,7 +96,8 @@ This will peform both the phases one by one.
 python3 model.py --train
 ```
 
-If you want to perform the 2 phases separately
+If you want to perform the 2 phases separately `(given the feature vectors are already saved in f.json and fvecs.json)`
+
 ```
 python3 model.py --phase1
 ```
@@ -117,9 +118,11 @@ Using the command below will use the pre-trained classifier saved in the pickle 
 python3 model.py --test
 ```
 
-### Cluster sizes:
+### Cluster sizes using DBSCAN in PHASE 1:
 #
-![cluster_png](screenshots/cluster_sizes.png)
+ Kmeans                    | DBScan
+:-------------------------:|:-------------------------:
+![cluster_png](screenshots/kmeans.png)  |  ![cluster_png](screenshots/dbscan.png)
 
 ### DBSCAN + Naive Bayes Classifer
 
