@@ -10,6 +10,16 @@ from build import Build
 
 pp = pprint.PrettyPrinter(indent=4)
 
+def arrToDic(labels):
+    d = {}
+    for i, lb in enumerate(labels):
+        if lb not in d:
+            d[lb] = 1
+        else:
+            d[lb] += 1
+
+    return d
+
 '''
     Phase 1 (UL) and 2 (SL) of training
 '''
@@ -34,20 +44,9 @@ def train_p1():
 
     pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
 
-    klb_map = {}
-    for i, lb in enumerate(kmeans.labels_):
-        if lb not in klb_map:
-            klb_map[lb] = 1
-        else:
-            klb_map[lb] += 1
+    klb_map = arrToDic(kmeans.labels_)
 
-    dblb_map = {}
-    for i, lb in enumerate(dbscan.labels_):
-        if lb not in dblb_map:
-            dblb_map[lb] = 1
-        else:
-            dblb_map[lb] += 1
-
+    dblb_map = arrToDic(dbscan.labels_)
 
     sorted(klb_map.items(), key=lambda kv: kv[0])
     sorted(dblb_map.items(), key=lambda kv: kv[0])
@@ -92,21 +91,32 @@ def train_p2():
     X_k = []
     y_k = []
 
+    klb_map = arrToDic(kmeans.labels_)
+
+    dblb_map = arrToDic(dbscan.labels_)
+
+    sorted(klb_map.items(), key=lambda kv: kv[1])
+    sorted(dblb_map.items(), key=lambda kv: kv[1])
+
+    # Getting label with max frequency -> Benign hosts
+    k_label = list(klb_map.keys())[0]
+    db_label = list(dblb_map.keys())[0]
+
     for i, item in enumerate(sf):
-        if preds_db[i] != 0:
+        if preds_db[i] != db_label:
             X_db.append(sf[item][0])
             y_db.append(sf[item][1])
 
-        if pred_k[i] != 0:
+        if preds_k[i] != k_label:
             X_k.append(sf[item][0])
             X_k.append(sf[item][0])
 
-    LR = LogisticRegression().fit(X, y)
+    LR = LogisticRegression().fit(X_db, y_db)
 
     pickle.dump(LR, open("./saved/LR.pkl", "wb"))
 
 
-    NB = GaussianNB().fit(X, y)
+    NB = GaussianNB().fit(X_db, y_db)
 
     pickle.dump(NB, open("./saved/NB.pkl", "wb"))
 
@@ -132,24 +142,24 @@ def test():
         y_true.append(str(sf[item][1]))
         y_pred.append(str(NB.predict([ sf[item][0] ])[0]))
 
-    # yt = {}
-    # for i in y_true:
-    #     if i not in yt:
-    #         yt[i] = 1
-    #     else:
-    #         yt[i] += 1
-    #
-    # yp = {}
-    # for i in y_pred:
-    #     if i not in yp:
-    #         yp[i] = 1
-    #     else:
-    #         yp[i] += 1
-    #
-    # print("True:")
-    # print(yt)
-    # print("Predicted:")
-    # print(yp)
+    yt = {}
+    for i in y_true:
+        if i not in yt:
+            yt[i] = 1
+        else:
+            yt[i] += 1
+
+    yp = {}
+    for i in y_pred:
+        if i not in yp:
+            yp[i] = 1
+        else:
+            yp[i] += 1
+
+    print("True:")
+    print(yt)
+    print("Predicted:")
+    print(yp)
 
     print("Accuracy: " + str( (acc*100)/float(len(sf)) - 7.0) + " % - NB")
 

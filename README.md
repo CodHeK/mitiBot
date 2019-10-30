@@ -120,7 +120,7 @@ python3 model.py --test
 
 ### Cluster size maps
 #
- Kmeans                    | DBScan
+ Kmeans(n_clusters=2, random_state=0) | DBScan (eps=0.4, min_samples=4)
 :-------------------------:|:-------------------------:
 ![cluster_png](screenshots/kmeans.png)  |  ![cluster_png](screenshots/dbscan.png)
 
