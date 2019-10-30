@@ -118,7 +118,7 @@ Using the command below will use the pre-trained classifier saved in the pickle 
 python3 model.py --test
 ```
 
-### Cluster sizes using DBSCAN in PHASE 1:
+### Cluster sizes maps
 #
  Kmeans                    | DBScan
 :-------------------------:|:-------------------------:
