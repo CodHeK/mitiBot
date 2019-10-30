@@ -126,28 +126,6 @@ python3 model.py --test
 
 ### DBSCAN + Naive Bayes Classifer
 
-Tested on the data file `50.csv`.
-#
-Test run:
-#
-![test50](screenshots/test50.png)
-#
-Test time:
-```
-  Avg: 6m-7m
-```
-
-Tested on the data file `51.csv`.
-#
-Test run:
-#
-![test51](screenshots/test51.png)
-#
-Test time:
-```
-  Avg: 3m-4m
-```
-
 Tested on the data files `50.csv` and `51.csv`.
 #
 Test run:
