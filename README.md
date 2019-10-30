@@ -123,7 +123,7 @@ python3 model.py --test
 
 ### DBSCAN + Naive Bayes Classifer
 
-Tested on the data file `50.csv` can see ratio of tuples in the image below.
+Tested on the data file `50.csv`.
 #
 Test run:
 #
@@ -136,7 +136,7 @@ Test time:
 
 ### DBSCAN + Naive Bayes Classifer
 
-Tested on the data file `51.csv` can see ratio of tuples in the image below.
+Tested on the data file `51.csv`.
 #
 Test run:
 #
@@ -145,6 +145,19 @@ Test run:
 Test time:
 ```
   Avg: 3m-4m
+```
+
+### DBSCAN + Naive Bayes Classifer
+
+Tested on the data files `50.csv` and `51.csv`.
+#
+Test run:
+#
+![test50_51](screenshots/test50_51.png)
+#
+Test time:
+```
+  Avg: ~7m
 ```
 
 ### Reference
