@@ -213,6 +213,8 @@ class Build:
         for node in self.nodes:
             # self.f[node][0] = self.normalize(self.f[node][0], node)
             self.fvecs.append(self.f[node][0])
+            # if self.node_map[node] == 1:
+            #     print(self.f[node][0])
 
         with open('./saved/fvecs.json', 'w') as fv:
             json.dump(self.fvecs, fv, indent=4)

@@ -4,7 +4,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans, Birch, DBSCAN
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, precision_score, recall_score, f1_score
+from sklearn.metrics import classification_report
 from sklearn.naive_bayes import GaussianNB
 from build import Build
 
@@ -44,7 +44,7 @@ def train_p1():
     dbscan = DBSCAN(eps=0.4, min_samples=4).fit(X)
 
     pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
-    #
+
     print("Done with PHASE 1 of Training!")
 
 
@@ -95,40 +95,32 @@ def test():
     for i, item in enumerate(sf):
         if str(NB.predict([ sf[item][0] ])[0]) == str(sf[item][1]):
             acc += 1
+            # if str(sf[item][1]) == '1':
+            #     print(sf[item][0])
 
         y_true.append(str(sf[item][1]))
         y_pred.append(str(NB.predict([ sf[item][0] ])[0]))
 
-    yt = {}
-    for i in y_true:
-        if i not in yt:
-            yt[i] = 1
-        else:
-            yt[i] += 1
-
-    yp = {}
-    for i in y_pred:
-        if i not in yp:
-            yp[i] = 1
-        else:
-            yp[i] += 1
-
-    print("True:")
-    print(yt)
-    print("Predicted:")
-    print(yp)
+    # yt = {}
+    # for i in y_true:
+    #     if i not in yt:
+    #         yt[i] = 1
+    #     else:
+    #         yt[i] += 1
+    #
+    # yp = {}
+    # for i in y_pred:
+    #     if i not in yp:
+    #         yp[i] = 1
+    #     else:
+    #         yp[i] += 1
+    #
+    # print("True:")
+    # print(yt)
+    # print("Predicted:")
+    # print(yp)
 
     print("Accuracy: " + str( (acc*100)/float(len(sf)) - 7.0) + " % - NB")
-
-    # print("Precision:")
-    # print(precision_score(y_true, y_pred))
-    #
-    # print("Recall:")
-    # print(recall_score(y_true, y_pred))
-    #
-    # print("F1 Score:")
-    # print(f1_score(y_true, y_pred))
-
 
 
 if __name__ == '__main__':
@@ -138,6 +130,7 @@ if __name__ == '__main__':
     parser.add_argument("--train", help="trains model", action="store_true")
     parser.add_argument("--phase1", help="trains model", action="store_true")
     parser.add_argument("--phase2", help="trains model", action="store_true")
+    parser.add_argument("--e2e", help="e2e training and testing of model", action="store_true")
     parser.add_argument("--test", help="evaluates model", action="store_true")
 
     args = parser.parse_args()
@@ -174,6 +167,25 @@ if __name__ == '__main__':
         train_p2()
 
     if args.test:
+        t = Build(['50.csv', '51.csv'])
+        t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
+        t.preprocess()
+
+        print("Done pre-processing on Test set!")
+
+        test()
+
+    if args.e2e:
+        b = Build(['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv'])
+        b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
+        b.preprocess()
+
+        print("Done pre-processing on Train set!")
+
+        train_p1()
+
+        train_p2()
+
         t = Build(['50.csv', '51.csv'])
         t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
         t.preprocess()

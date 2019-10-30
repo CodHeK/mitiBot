@@ -42,6 +42,51 @@ Step 2:
   ```
 
 
+### Using the data files
+
+```
+b = Build(['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv'])
+```
+
+Just pass the file names, it will read the files from the `./datasets` directory and load the data.
+
+
+### e2e mode
+
+To perform both `training` then `testing` use the `e2e` flag.
+
+```
+python3 model.py --e2e
+```
+
+Configuration used in the e2e mode:
+
+```
+# Training dataset
+
+b = Build(['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv'])
+b.data = b.build_train_set(b.non_bot_tuples, b.bot_tuples)
+b.preprocess()
+
+train_p1()
+train_p2()
+
+# Testing dataset
+
+t = Build(['50.csv', '51.csv'])
+t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
+t.preprocess()
+
+test()
+```
+
+Total time:
+```
+  Avg: ~45m
+```
+
+
+
 ### Training
 
 You can train the model in 2 ways, as it has PHASE 1 (UNSUPERVISED) and PHASE 2 (SUPERVISED)
