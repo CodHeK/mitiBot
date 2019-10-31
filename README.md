@@ -73,6 +73,12 @@ python3 model.py --phase2
 
 Once trained, it creates the pickle files of the model and saves it in the `saved` folder which is then used for the testing.
 
+NOTE:
+
+You could directly used the saved `feature vectors` store in the JSON format in folder `saved_train` and directly train `phase2` of the training process inorder to fasten the training process!
+
+The above, weights saved are trained on the following data files: `['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv']` in case you want to modify you'll have to train `phase1` first whose weights once trained will we saved in the `/saved` folder.
+
 
 ### Testing
 

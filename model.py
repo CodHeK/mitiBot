@@ -75,7 +75,7 @@ def train_p1():
 def train_p2():
     # PHASE 2 - SUPERVISED LEARNING
 
-    with open("./saved/f.json", "r") as feat:
+    with open("./saved_train/f.json", "r") as feat:
         sf = json.load(feat)
 
 
