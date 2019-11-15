@@ -40,7 +40,7 @@ def train_p1():
 
     # DBSCAN Clustering
 
-    dbscan = DBSCAN(eps=0.4, min_samples=4).fit(X)
+    dbscan = DBSCAN(eps=1.0, min_samples=4).fit(X)
 
     pickle.dump(dbscan, open("./saved/dbscan.pkl", "wb"))
 

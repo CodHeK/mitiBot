@@ -41,6 +41,33 @@ def train_sl():
     print("Trained both LR and NB in supervised learning!")
 
 
+def label_to_acc(labels, n_clusters, sf):
+    lab_dic = arrToDic(labels)
+
+    lab_dic = sorted(lab_dic.items(), key=lambda kv: kv[1], reverse=True)
+
+    non_bot_label = lab_dic[0][0]
+
+    for i, val in enumerate(labels):
+        if str(val) == str(non_bot_label):
+            labels[i] = 0
+        else:
+            labels[i] = 1
+
+    accuracy = 0
+    for i, item in enumerate(sf):
+        if(str(labels[i]) == str(sf[item][1])):
+            accuracy += 1
+
+    accuracy = (accuracy*100)/float(len(sf)) - 7.0
+
+    if(n_clusters):
+        print("Accuracy using Kmeans (n_clusters = " + str(n_clusters) + ") = " + str(accuracy))
+    else:
+        print("Accuracy using DBScan = " + str(accuracy))
+
+    return accuracy
+
 def test(flag):
     with open("./saved/fvecs.json", "r") as feat:
         sfvecs = json.load(feat)
@@ -57,26 +84,17 @@ def test(flag):
         dbscan = DBSCAN(eps=1.0, min_samples=4).fit(X)
         labels = dbscan.labels_
 
-        lab_dic = arrToDic(labels)
+        acc_dic = {}
 
-        lab_dic = sorted(lab_dic.items(), key=lambda kv: kv[1], reverse=True)
+        for i in range(2, 100, 10):
+            kmeans = KMeans(n_clusters=i, random_state=0).fit(X)
+            labels = kmeans.labels_
+            acc_dic[i] = label_to_acc(labels, i, sf)
 
-        non_bot_label = lab_dic[0][0]
 
-        for i, val in enumerate(labels):
-            if str(val) == str(non_bot_label):
-                labels[i] = 0
-            else:
-                labels[i] = 1
+        # print(acc_dic)
 
-        accuracy = 0
-        for i, item in enumerate(sf):
-            if(str(labels[i]) == str(sf[item][1])):
-                accuracy += 1
 
-        accuracy = (accuracy*100)/float(len(sf)) - 7.0
-
-        print("Accuracy using just Unsupervised Learning = " + str(accuracy))
 
     else:
         with open("./saved/f.json", "r") as feat:
@@ -126,11 +144,11 @@ if __name__ == '__main__':
         train_sl()
 
     if args.test_ul:
-        t = Build(['50.csv', '51.csv'])
-        t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
-        t.preprocess()
-
-        print("Done pre-processing on Test set!")
+        # t = Build(['50.csv', '51.csv'])
+        # t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
+        # t.preprocess()
+        #
+        # print("Done pre-processing on Test set!")
 
         test("ul")
 

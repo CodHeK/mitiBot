@@ -129,6 +129,11 @@ Clustering on the data files `50.csv` and `51.csv`
 
 ![test_ul_db](screenshots/test_ul_db.png)
 
+### Using various number of clusters for KMeans
+
+Clustering on the data files `50.csv` and `51.csv`
+
+![kmeans_exp](screenshots/kmeans_exp.png)
 
 
 
