@@ -119,6 +119,19 @@ Test time:
   Avg: ~6m
 ```
 
+### Experimenting
+
+Using only Unsupervised Learning as our learning technique we get :
+
+#### DBScan (eps=1.0, min_samples=4)
+
+Clustering on the data files `50.csv` and `51.csv`
+
+![test_ul_db](screenshots/test_ul_db.png)
+
+
+
+
 ### Reference
 
 The following code is the implementation of the [paper](https://arxiv.org/pdf/1902.08538.pdf)

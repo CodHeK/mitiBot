@@ -26,7 +26,7 @@ def arrToDic(labels):
 def train_p1():
     # PHASE 1 - UNSUPERVISED LEARNING
 
-    with open("./saved/fvecs.json", "r") as fv:
+    with open("./saved_train/fvecs.json", "r") as fv:
         sfvecs = json.load(fv)
 
     X = np.array(sfvecs)
