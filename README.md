@@ -127,7 +127,7 @@ Using only Unsupervised Learning as our learning technique we get :
 
 Clustering on the data files `50.csv` and `51.csv`
 
-![test_ul_db](screenshots/test_ul_db.png)
+![dbscan_exp](screenshots/dbscan_exp.png)
 
 ### Using various number of clusters for KMeans
 
