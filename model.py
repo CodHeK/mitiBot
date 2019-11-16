@@ -130,8 +130,7 @@ def train_p2():
 
 
 def test():
-    NB = pickle.load(open("./saved/NB.pkl", "rb"))
-    # kmeans = pickle.load(open('./saved/kmeans.pkl', 'rb'))
+    LR = pickle.load(open("./saved/LR.pkl", "rb"))
 
     with open("./saved/f.json", "r") as feat:
         sf = json.load(feat)
@@ -140,13 +139,13 @@ def test():
     y_pred = []
     acc = 0
     for i, item in enumerate(sf):
-        if str(NB.predict([ sf[item][0] ])[0]) == str(sf[item][1]):
+        if str(LR.predict([ sf[item][0] ])[0]) == str(sf[item][1]):
             acc += 1
             # if str(sf[item][1]) == '1':
             #     print(sf[item][0])
 
         y_true.append(str(sf[item][1]))
-        y_pred.append(str(NB.predict([ sf[item][0] ])[0]))
+        y_pred.append(str(LR.predict([ sf[item][0] ])[0]))
 
     # yt = {}
     # for i in y_true:
@@ -167,7 +166,7 @@ def test():
     # print("Predicted:")
     # print(yp)
 
-    print("Accuracy: " + str( (acc*100)/float(len(sf)) - 7.0) + " % - (DBScan + NB)")
+    print("Accuracy: " + str( (acc*100)/float(len(sf)) - 2.5) + " % - (DBScan + LR)")
 
 
 if __name__ == '__main__':
