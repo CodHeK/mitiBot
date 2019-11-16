@@ -99,7 +99,7 @@ Tested on the data files `50.csv` and `51.csv`.
 #
 Test run:
 #
-![test50_51](screenshots/test50_51_db_nb.png)
+![test50_51](screenshots/test_db_nb.png)
 #
 Test time:
 ```
@@ -112,7 +112,7 @@ Tested on the data files `50.csv` and `51.csv`.
 #
 Test run:
 #
-![test50_51](screenshots/test50_51_db_lr.png)
+![test50_51](screenshots/test_db_lr.png)
 #
 Test time:
 ```
