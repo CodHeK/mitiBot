@@ -264,6 +264,8 @@ if __name__ == '__main__':
 
             train_p2()
 
+            print("Testing on " + str(datasets[i]))
+
             t = Build([ datasets[i] ])
             t.data = t.build_test_set(t.non_bot_tuples, t.bot_tuples, 50)
             t.preprocess()

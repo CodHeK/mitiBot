@@ -67,6 +67,8 @@ $ python3 model.py --kfold
 
 Takes about `~8 hours` in total to complete! (Check [logs](https://github.com/CodHeK/mitiBot/blob/master/kfold.logs))
 
+![kfold-output](screenshots/kfold-output.png)
+
 In the end prints the average accuracy for Logistic Regression and Naive Bayes using DBSCAN in phase 1.
 
 DBSCAN + LR | DBSCAN + NB

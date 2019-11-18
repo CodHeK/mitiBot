@@ -1,0 +1,23 @@
+Start Time = 21:38:57
+
+Accuracy: 97.48735511064278 % - (DBScan + LR) | 97.47471022128556 % - (DBScan + NB)
+Finished index = 1 at 22:35:04
+Accuracy: 97.49092023425796 % - (DBScan + LR) | 97.48184046851591 % - (DBScan + NB)
+Finished index = 2 at 23:33:42
+Accuracy: 97.48336383297288 % - (DBScan + LR) | 97.46672766594577 % - (DBScan + NB)
+Finished index = 3 at 00:24:02
+Accuracy: 97.47325249643367 % - (DBScan + LR) | 97.419757489301 % - (DBScan + NB)
+Finished index = 4 at 01:13:29
+Accuracy: 97.49090909090908 % - (DBScan + LR) | 97.47272727272727 % - (DBScan + NB)
+Finished index = 5 at 02:03:59
+Accuracy: 97.4294325198471 % - (DBScan + LR) | 96.78256395177888 % - (DBScan + NB)
+Finished index = 6 at 02:52:32
+Accuracy: 97.40599897453427 % - (DBScan + LR) | 96.66253631857802 % - (DBScan + NB)
+Finished index = 7 at 03:43:21
+Accuracy: 97.47408655091992 % - (DBScan + LR) | 97.45465146410987 % - (DBScan + NB)
+Finished index = 8 at 04:32:27
+Accuracy: 97.41312657458083 % - (DBScan + LR) | 97.38706454695509 % - (DBScan + NB)
+Finished index = 9 at 05:18:51
+
+Average Accuracy (DBSCAN + LR) = 97.46093837612206% | (DBSCAN + NB) = 97.28917548879973%
+End Time = 05:18:51
