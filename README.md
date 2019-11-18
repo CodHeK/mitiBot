@@ -53,16 +53,14 @@ Total time:
 
 Perform K-fold cross-validation on the 9 datasets using the `--kfold` flag.
 
-```
 We use:
 
-datasets = ['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '50.csv', '51.csv', '52.csv', '53.csv']
+`datasets = ['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '50.csv', '51.csv', '52.csv', '53.csv']`
 
 In each iteration we use one of the datasets for testing and the rest for training.
 
-$ python3 model.py --kfold
+`$ python3 model.py --kfold`
 
-```
 
 Takes about `~8 hours` in total to complete! (Check [logs](https://github.com/CodHeK/mitiBot/blob/master/kfold.logs))
 
