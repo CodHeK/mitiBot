@@ -44,7 +44,7 @@ class Build:
         non_bot_tuples = []
         bot_tuples = []
 
-        non_bot_flow_tuples = 97850
+        non_bot_flow_tuples = 100000
 
         for line in content:
             flow = line.split(',')[14]

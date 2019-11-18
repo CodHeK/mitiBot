@@ -1,0 +1,300 @@
+Start Time = 21:38:57
+Read file - 43.csv
+Read file - 46.csv
+Read file - 47.csv
+Read file - 48.csv
+Read file - 50.csv
+Read file - 51.csv
+Read file - 52.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{0: 42841, 1: 16}
+Graph built!
+42857
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 42.csv
+Read Dataset...
+Total tuples to choose test set from: 140961 = 100000 + 40961
+Total non-bot tuples: 50000 -> 54.96861292202153 %
+Total bot tuples: 40961 -> 45.03138707797847 %
+Total size of test set: 90961
+Built testing dataset...
+{0: 23724, 1: 1}
+Graph built!
+23725
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.48735511064278 % - (DBScan + LR) | 97.47471022128556 % - (DBScan + NB)
+97.48735511064278
+97.47471022128556
+Finished index = 1 at 22:35:04
+Read file - 42.csv
+Read file - 46.csv
+Read file - 47.csv
+Read file - 48.csv
+Read file - 50.csv
+Read file - 51.csv
+Read file - 52.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{1: 16, 0: 45628}
+Graph built!
+45644
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 43.csv
+Read Dataset...
+Total tuples to choose test set from: 120941 = 100000 + 20941
+Total non-bot tuples: 50000 -> 70.4811040160133 %
+Total bot tuples: 20941 -> 29.518895983986692 %
+Total size of test set: 70941
+Built testing dataset...
+{0: 22026, 1: 1}
+Graph built!
+22027
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.49092023425796 % - (DBScan + LR) | 97.48184046851591 % - (DBScan + NB)
+97.49092023425796
+97.48184046851591
+Finished index = 2 at 23:33:42
+Read file - 42.csv
+Read file - 43.csv
+Read file - 47.csv
+Read file - 48.csv
+Read file - 50.csv
+Read file - 51.csv
+Read file - 52.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{1: 16, 0: 45628}
+Graph built!
+45644
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 46.csv
+Read Dataset...
+Total tuples to choose test set from: 100901 = 100000 + 901
+Total non-bot tuples: 50000 -> 98.22989725152748 %
+Total bot tuples: 901 -> 1.7701027484725251 %
+Total size of test set: 50901
+Built testing dataset...
+{0: 12021, 1: 1}
+Graph built!
+12022
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.48336383297288 % - (DBScan + LR) | 97.46672766594577 % - (DBScan + NB)
+97.48336383297288
+97.46672766594577
+Finished index = 3 at 00:24:02
+Read file - 42.csv
+Read file - 43.csv
+Read file - 46.csv
+Read file - 48.csv
+Read file - 50.csv
+Read file - 51.csv
+Read file - 52.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{1: 16, 0: 45628}
+Graph built!
+45644
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 47.csv
+Read Dataset...
+Total tuples to choose test set from: 104630 = 100000 + 4630
+Total non-bot tuples: 50000 -> 91.52480322167307 %
+Total bot tuples: 4630 -> 8.475196778326927 %
+Total size of test set: 54630
+Built testing dataset...
+{0: 11215, 1: 1}
+Graph built!
+11216
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.47325249643367 % - (DBScan + LR) | 97.419757489301 % - (DBScan + NB)
+97.47325249643367
+97.419757489301
+Finished index = 4 at 01:13:29
+Read file - 42.csv
+Read file - 43.csv
+Read file - 46.csv
+Read file - 47.csv
+Read file - 50.csv
+Read file - 51.csv
+Read file - 52.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{1: 16, 0: 45628}
+Graph built!
+45644
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 48.csv
+Read Dataset...
+Total tuples to choose test set from: 100063 = 100000 + 63
+Total non-bot tuples: 50000 -> 99.87415856021413 %
+Total bot tuples: 63 -> 0.1258414397858698 %
+Total size of test set: 50063
+Built testing dataset...
+{0: 10999, 1: 1}
+Graph built!
+11000
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.49090909090908 % - (DBScan + LR) | 97.47272727272727 % - (DBScan + NB)
+97.49090909090908
+97.47272727272727
+Finished index = 5 at 02:03:59
+Read file - 42.csv
+Read file - 43.csv
+Read file - 46.csv
+Read file - 47.csv
+Read file - 48.csv
+Read file - 51.csv
+Read file - 52.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{1: 16, 0: 45628}
+Graph built!
+45644
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 50.csv
+Read Dataset...
+Total tuples to choose test set from: 284987 = 100000 + 184987
+Total non-bot tuples: 50000 -> 21.27777281296412 %
+Total bot tuples: 184987 -> 78.72222718703588 %
+Total size of test set: 234987
+Built testing dataset...
+{0: 16995, 1: 10}
+Graph built!
+17005
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.4294325198471 % - (DBScan + LR) | 96.78256395177888 % - (DBScan + NB)
+97.4294325198471
+96.78256395177888
+Finished index = 6 at 02:52:32
+Read file - 42.csv
+Read file - 43.csv
+Read file - 46.csv
+Read file - 47.csv
+Read file - 48.csv
+Read file - 50.csv
+Read file - 52.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{1: 16, 0: 45628}
+Graph built!
+45644
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 51.csv
+Read Dataset...
+Total tuples to choose test set from: 206352 = 100000 + 106352
+Total non-bot tuples: 50000 -> 31.97912402783463 %
+Total bot tuples: 106352 -> 68.02087597216537 %
+Total size of test set: 156352
+Built testing dataset...
+{1: 10, 0: 11692}
+Graph built!
+11702
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.40599897453427 % - (DBScan + LR) | 96.66253631857802 % - (DBScan + NB)
+97.40599897453427
+96.66253631857802
+Finished index = 7 at 03:43:21
+Read file - 42.csv
+Read file - 43.csv
+Read file - 46.csv
+Read file - 47.csv
+Read file - 48.csv
+Read file - 50.csv
+Read file - 51.csv
+Read file - 53.csv
+Read Dataset...
+Built training dataset...
+{1: 16, 0: 45628}
+Graph built!
+45644
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 52.csv
+Read Dataset...
+Total tuples to choose test set from: 107251 = 99087 + 8164
+Total non-bot tuples: 49543 -> 85.8526695201622 %
+Total bot tuples: 8164 -> 14.147330479837802 %
+Total size of test set: 57707
+Built testing dataset...
+{0: 15433, 1: 3}
+Graph built!
+15436
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.47408655091992 % - (DBScan + LR) | 97.45465146410987 % - (DBScan + NB)
+97.47408655091992
+97.45465146410987
+Finished index = 8 at 04:32:27
+Read file - 42.csv
+Read file - 43.csv
+Read file - 46.csv
+Read file - 47.csv
+Read file - 48.csv
+Read file - 50.csv
+Read file - 51.csv
+Read file - 52.csv
+Read Dataset...
+Built training dataset...
+{1: 10, 0: 45628}
+Graph built!
+45638
+Feature Extraction done!
+Normalizing Done!
+Done with PHASE 1 of Training!
+Done with PHASE 2 of Training!
+Read file - 53.csv
+Read Dataset...
+Total tuples to choose test set from: 102168 = 100000 + 2168
+Total non-bot tuples: 50000 -> 95.8441956755099 %
+Total bot tuples: 2168 -> 4.155804324490109 %
+Total size of test set: 52168
+Built testing dataset...
+{0: 11502, 1: 9}
+Graph built!
+11511
+Feature Extraction done!
+Normalizing Done!
+Accuracy: 97.41312657458083 % - (DBScan + LR) | 97.38706454695509 % - (DBScan + NB)
+97.41312657458083
+97.38706454695509
+Finished index = 9 at 05:18:51
+Average Accuracy (DBSCAN + LR) = 97.46093837612206% | (DBSCAN + NB) = 97.28917548879973%
+End Time = 05:18:51
