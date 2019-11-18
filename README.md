@@ -151,13 +151,13 @@ Using only Unsupervised Learning as our learning technique we get :
 
 #### DBScan (eps=1.0, min_samples=4)
 
-Clustering on the data files `50.csv` and `51.csv`
+Testing the cluster on the data files `50.csv` and `51.csv`
 
 ![dbscan_exp](screenshots/dbscan_exp.png)
 
 ### Using various number of clusters for KMeans
 
-Clustering on the data files `50.csv` and `51.csv`
+Testing the cluster on the data files `50.csv` and `51.csv`
 
 ![kmeans_exp](screenshots/kmeans_exp.png)
 

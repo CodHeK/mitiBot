@@ -62,7 +62,8 @@ def label_to_acc(labels, n_clusters, sf):
     accuracy = (accuracy*100)/float(len(sf)) - 7.0
 
     if(n_clusters):
-        print("Accuracy using Kmeans (n_clusters = " + str(n_clusters) + ") = " + str(accuracy))
+        print(str(n_clusters) + " & " + str(accuracy) + " \\\\ ")
+        # print("Accuracy using Kmeans (n_clusters = " + str(n_clusters) + ") = " + str(accuracy))
     else:
         print("Accuracy using DBScan = " + str(accuracy))
 
