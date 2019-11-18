@@ -49,6 +49,28 @@ Total time:
 ```
 
 
+### k-fold mode
+
+Perform K-fold cross-validation on the 9 datasets using the `--kfold` flag.
+
+```
+We use:
+
+datasets = ['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '50.csv', '51.csv', '52.csv', '53.csv']
+
+In each iteration we use one of the datasets for testing and the rest for training.
+
+$ python3 model.py --kfold
+
+```
+
+Takes about `~8 hours` in total to complete! (Check [logs](https://github.com/CodHeK/mitiBot/blob/master/kfold.logs))
+
+In the end prints the average accuracy for Logistic Regression and Naive Bayes using DBSCAN in phase 1.
+
+DBSCAN + LR | DBSCAN + NB
+:-------------------------:|:-------------------------:
+97.46%  |  97.29%
 
 ### Training
 
@@ -78,6 +100,7 @@ NOTE:
 You could directly used the saved `feature vectors` store in the JSON format in folder `saved_train` and directly train `phase2` of the training process inorder to fasten the training process!
 
 The above, weights saved are trained on the following data files: `['42.csv', '43.csv', '46.csv', '47.csv', '48.csv', '52.csv', '53.csv']` in case you want to modify you'll have to train `phase1` first whose weights once trained will we saved in the `/saved` folder.
+
 
 
 ### Testing

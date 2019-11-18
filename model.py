@@ -281,7 +281,6 @@ if __name__ == '__main__':
         print("Average Accuracy (DBSCAN + LR) = " + str(acc_lr/float(k)) + "% | (DBSCAN + NB) = " + str(acc_nb/float(k)) + "%")
 
 
-
     #########################################
 
     end = datetime.now()
