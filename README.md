@@ -160,10 +160,3 @@ Testing the cluster on the data files `50.csv` and `51.csv`
 Testing the cluster on the data files `50.csv` and `51.csv`
 
 ![kmeans_exp](screenshots/kmeans_exp.png)
-
-
-
-### Reference
-
-The following code is the implementation of the [paper](https://arxiv.org/pdf/1902.08538.pdf)
-with slight modifications.
